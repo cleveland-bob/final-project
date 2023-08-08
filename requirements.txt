@@ -1,0 +1,19 @@
+# this is the "requirements.txt" file
+
+requests
+
+pandas
+
+plotly
+
+
+python-dotenv
+
+
+# for testing:
+pytest
+
+flask
+
+#for deployment
+gunicorn
