@@ -1,4 +1,4 @@
-# unemployment-inclass
+# Final-Project
 
 ## Setup
 
@@ -7,11 +7,11 @@ Obtain an [AlphaVantage API Key](https://www.alphavantage.co/support/#api-key). 
 Create a virtual environment:
 
 ```sh
-conda create -n unemployment-env python=3.10
+conda create -n final-env python=3.10
 ```
 
 ```sh
-conda activate unemployment-env
+conda activate final-env
 ```
 
 Install third-party packages:
@@ -25,9 +25,9 @@ pip install -r requirements.txt
 Run the report:
 
 ```sh
-python app/unemployment.py
+python app/final.py
 
-python -m app.unemployment
+python -m app.final
 ```
 
 ## Testing
