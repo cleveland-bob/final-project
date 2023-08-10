@@ -3,8 +3,28 @@
 
 {% block content %}
 
-    <h1>{{ message }}</h1>
 
-    <p>This is a paragraph on the "hello" page.</p>
+
+    <h1>Golf Score Tracker</h1>
+    <form method="POST" action="/">
+        <label for="hole">Hole:</label>
+        <input type="number" id="hole" name="hole" min="1" max="18" required><br><br>
+
+        <label for="score">Score:</label>
+        <input type="number" id="score" name="score" min="1" required><br><br>
+
+        <label for="putts">Putts:</label>
+        <input type="number" id="putts" name="putts" min="0" required><br><br>
+
+        <label for="fairway">Fairway:</label>
+        <select id="fairway" name="fairway">
+            <option value="Hit">Hit</option>
+            <option value="Left">Left</option>
+            <option value="Right">Right</option>
+        </select><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
 
 {% endblock %}
