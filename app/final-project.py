@@ -14,7 +14,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", sco
 client = gspread.authorize(creds)
 sheet = client.open("GolfScores").sheet1
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/final_routes", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         hole = request.form["hole"]
