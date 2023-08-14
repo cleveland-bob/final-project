@@ -8,7 +8,7 @@ def write_to_csv(data):
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(data)
 
-@app.route("/home_routes", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 def index():
     message = None  # Initialize a message variable
 
@@ -26,7 +26,7 @@ def index():
         else:
             message = "Success! Data submitted for hole {}".format(hole)
 
-    return render_template("index.html", message=message)
+    return render_template("golfstats.html", message=message)
 
 if __name__ == '__main__':
     app.run(debug=True)
