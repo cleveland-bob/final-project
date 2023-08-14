@@ -12,24 +12,68 @@ def index():
     return render_template("home.html")
 
 @home_routes.route("/golfstats")
-def golfstats():
-    print("golfstats...")
+def summary():
+    round_data = {}  # Dictionary to store aggregate statistics for each round
 
-    return render_template("golfstats.html")
+    with open('stats.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        next(csv_reader)  # Skip the header row
+        for row in csv_reader:
+            round_id = int(row[0])
+            strokes = int(row[1])
+            putts = int(row[2])
+            fairway = int(row[3])
 
-@home_routes.route("/hello")
-def hello_world():
-    print("HELLO...")
+            if round_id not in round_data:
+                round_data[round_id] = {'strokes': [], 'putts': [], 'fairway': []}
+            
+            round_data[round_id]['strokes'].append(strokes)
+            round_data[round_id]['putts'].append(putts)
+            round_data[round_id]['fairway'].append(fairway)
+    
+    # Calculate aggregate statistics for each round
+    aggregated_stats = []
+    for round_id, stats in round_data.items():
+        avg_strokes = sum(stats['strokes']) / len(stats['strokes'])
+        avg_putts = sum(stats['putts']) / len(stats['putts'])
+        fairways_hit_percentage = (sum(stats['fairway']) / len(stats['fairway'])) * 100
+        aggregated_stats.append({
+            'round_id': round_id,
+            'average_strokes_per_hole': avg_strokes,
+            'average_putts_per_hole': avg_putts,
+            'fairways_hit_percentage': fairways_hit_percentage
+        })
 
-    # if the request contains url params, for example a request to "/hello?name=Harper"
-    # the request object's args property will hold the values in a dictionary-like structure
-    url_params = dict(request.args)
-    print("URL PARAMS:", url_params) #> can be empty like {} or full of params like {"name":"Harper"}
+    return render_template("golfstats.html", data=aggregated_stats)
 
-    # get a specific key called "name" if available, otherwise use some specified default value
-    # see also: https://www.w3schools.com/python/ref_dictionary_get.asp
-    name = url_params.get("name") or "World"
+if __name__ == "__main__":
+    app.run(debug=True)
 
-    message = f"Hello, {name}!"
-    #return message
+
+def write_to_csv(data):
+    with open('stats.csv', 'a', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(data)
+
+@home_routes.route("/", methods=["GET", "POST"])
+def index():
+    message = None  # Initialize a message variable
+
+    if request.method == "POST":
+        hole = request.form["hole"]
+        score = int(request.form["score"])
+        putts = int(request.form["putts"])
+        fairway = request.form["fairway"]
+
+        data = [hole, score, putts, fairway]
+        write_to_csv(data)
+
+        if int(hole) == 18:
+            return redirect("/")
+        else:
+            message = "Success! Data submitted for hole {}".format(hole)
+
     return render_template("hello.html", message=message)
+
+if __name__ == '__main__':
+    app.run(debug=True)
