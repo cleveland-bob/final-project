@@ -22,7 +22,7 @@ def index():
         write_to_csv(data)
 
         if int(hole) == 18:
-            return redirect("/summary")
+            return redirect("/")
         else:
             message = "Success! Data submitted for hole {}".format(hole)
 
@@ -31,15 +31,40 @@ def index():
 if __name__ == '__main__':
     app.run(debug=True)
 
-@app.route("/summary")
+@app.route("/golfstats")
 def summary():
-    data = []
+    round_data = {}  # Dictionary to store aggregate statistics for each round
+
     with open('stats.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
+        next(csv_reader)  # Skip the header row
         for row in csv_reader:
-            data.append(row)
+            round_id = int(row[0])
+            strokes = int(row[1])
+            putts = int(row[2])
+            fairway = int(row[3])
+
+            if round_id not in round_data:
+                round_data[round_id] = {'strokes': [], 'putts': [], 'fairway': []}
+            
+            round_data[round_id]['strokes'].append(strokes)
+            round_data[round_id]['putts'].append(putts)
+            round_data[round_id]['fairway'].append(fairway)
     
-    return render_template("summary.html", data=data)
+    # Calculate aggregate statistics for each round
+    aggregated_stats = []
+    for round_id, stats in round_data.items():
+        avg_strokes = sum(stats['strokes']) / len(stats['strokes'])
+        avg_putts = sum(stats['putts']) / len(stats['putts'])
+        fairways_hit_percentage = (sum(stats['fairway']) / len(stats['fairway'])) * 100
+        aggregated_stats.append({
+            'round_id': round_id,
+            'average_strokes_per_hole': avg_strokes,
+            'average_putts_per_hole': avg_putts,
+            'fairways_hit_percentage': fairways_hit_percentage
+        })
+
+    return render_template("golfstats.html", data=aggregated_stats)
 
 if __name__ == "__main__":
     app.run(debug=True)
