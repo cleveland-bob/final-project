@@ -14,7 +14,7 @@ def index():
 @home_routes.route("/golfstats")
 def golfstats():
     print("golfstats...")
-    #return "About Me"
+
     return render_template("golfstats.html")
 
 @home_routes.route("/hello")
