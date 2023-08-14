@@ -38,11 +38,11 @@ def summary():
 if __name__ == "__main__":
     app.run(debug=True)
 
-@app.route('/golf-stats')
-def golf_stats():
+@app.route('/golfstats')
+def golfstats():
     csv_file_path = "stats.csv"
     avg_strokes, avg_putts, fairways_percentage = process_csv(csv_file_path)
-    return render_template('golf_stats.html', average_strokes=avg_strokes, average_putts=avg_putts, fairways_percentage=fairways_percentage)
+    return render_template('golfstats.html', average_strokes=avg_strokes, average_putts=avg_putts, fairways_percentage=fairways_percentage)
 
 
 

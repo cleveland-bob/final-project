@@ -11,11 +11,11 @@ def index():
     #return "Welcome Home"
     return render_template("home.html")
 
-@home_routes.route("/golf-stats")
-def golf-stats():
-    print("golf-stats...")
+@home_routes.route("/golfstats")
+def golfstats():
+    print("golfstats...")
     #return "About Me"
-    return render_template("golf-stats.html")
+    return render_template("golfstats.html")
 
 @home_routes.route("/hello")
 def hello_world():
