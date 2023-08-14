@@ -8,8 +8,10 @@ def write_to_csv(data):
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(data)
 
-@app.route("/home_routes", methods=["POST"])
+@app.route("/home_routes", methods=["GET", "POST"])
 def index():
+    message = None  # Initialize a message variable
+
     if request.method == "POST":
         hole = request.form["hole"]
         score = int(request.form["score"])
@@ -21,8 +23,13 @@ def index():
 
         if int(hole) == 18:
             return redirect("/summary")
-    
-    return render_template("index.html")
+        else:
+            message = "Success! Data submitted for hole {}".format(hole)
+
+    return render_template("index.html", message=message)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 @app.route("/summary")
 def summary():
