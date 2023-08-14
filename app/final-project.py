@@ -7,13 +7,6 @@ from flask import Flask, render_template, request, redirect
 # Initialize Flask app
 app = Flask(__name__)
 
-# Google Sheets API setup
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets",
-         "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-client = gspread.authorize(creds)
-sheet = client.open("GolfScores").sheet1
-
 @app.route("/final_routes", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -22,8 +15,10 @@ def index():
         putts = int(request.form["putts"])
         fairway = request.form["fairway"]
 
-        # Log data in Google Sheet
-        sheet.append_row([hole, score, putts, fairway])
+        # Write data into CSV file
+        with open('stats.csv', 'a', newline='') as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow([round_id, strokes, putts, fairway])
 
         if int(hole) == 18:
             return redirect("/summary")
@@ -32,7 +27,11 @@ def index():
 
 @app.route("/summary")
 def summary():
-    data = sheet.get_all_values()
+    # You can still read data from the CSV file if needed
+    with open('stats.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        data = list(csv_reader)
+    
     return render_template("summary.html", data=data)
 
 if __name__ == "__main__":
