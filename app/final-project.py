@@ -37,3 +37,32 @@ def summary():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route('/golf-stats')
+def golf_stats():
+    csv_file_path = "stats.csv"
+    avg_strokes, avg_putts, fairways_percentage = process_csv(csv_file_path)
+    return render_template('golf_stats.html', average_strokes=avg_strokes, average_putts=avg_putts, fairways_percentage=fairways_percentage)
+
+
+
+def process_csv(file_path):
+    total_strokes = 0
+    total_putts = 0
+    total_fairways_hit = 0
+    total_holes = 0
+
+    with open(file_path, 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            total_strokes += int(row['strokes'])
+            total_putts += int(row['putts'])
+            total_fairways_hit += int(row['fairway'])
+            total_holes += 1
+
+    average_strokes_per_hole = total_strokes / total_holes
+    average_putts_per_hole = total_putts / total_holes
+    fairways_hit_percentage = (total_fairways_hit / total_holes) * 100
+
+    return average_strokes_per_hole, average_putts_per_hole, fairways_hit_percentage
+
