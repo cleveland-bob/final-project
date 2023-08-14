@@ -8,7 +8,7 @@ def write_to_csv(data):
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(data)
 
-@app.route("/final_routes", methods=["POST"])
+@app.route("/home_routes", methods=["POST"])
 def index():
     if request.method == "POST":
         hole = request.form["hole"]
