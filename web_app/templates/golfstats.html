@@ -1,5 +1,5 @@
 {% extends "bootstrap_5_layout.html" %}
-{% set active_page = "golfstats" %}
+{% set active_page = "about" %}
 
 {% block content %}
 
@@ -7,11 +7,11 @@
 
     <p>Here you can see your stats from prior rounds</p>
 
-    <div class="container mt-4">
+      <div class="container mt-4">
         <h1 class="mb-4">Golf Statistics</h1>
-        <p class="lead">Average Strokes Per Hole: {{ data.average_strokes_per_hole }}</p>
-        <p class="lead">Average Putts Per Hole: {{ data.average_putts_per_hole }}</p>
-        <p class="lead">Percentage of Fairways Hit: {{ data.fairways_hit_percentage }}%</p>
+        <p class="lead">Average Strokes Per Hole: {{ average_strokes_per_hole }}</p>
+        <p class="lead">Average Putts Per Hole: {{ average_putts_per_hole }}</p>
+        <p class="lead">Percentage of Fairways Hit: {{ fairways_hit_percentage }}%</p>
     </div>
 
 {% endblock %}
