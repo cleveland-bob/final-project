@@ -46,13 +46,13 @@ def golfstats():
 
 
 
-def process_csv(file_path):
+def process_csv(csv_file_path):
     total_strokes = 0
     total_putts = 0
     total_fairways_hit = 0
     total_holes = 0
 
-    with open(file_path, 'r') as csvfile:
+    with open('stats.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             total_strokes += int(row['strokes'])
