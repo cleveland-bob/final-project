@@ -25,6 +25,11 @@ Install third-party packages:
 pip install -r requirements.txt
 ```
 
+## Notes
+``This application requires the use of flask for deployment and csv to read files
+This application uses twitter bootstrap to display the layout on a web page 
+This application requires you to have a blank stats.csv file with headers that match the file in this repo. Please name the file accordingly and ensure its format is accurate before proceeding ``
+
 ## Usage
 
 Run the App:
@@ -35,10 +40,4 @@ python app/final-project.py
 python -m app.final
 ```
 
-## Testing
-
-Run tests (to be built) :
-
-```sh
-pytest
-```
+## 

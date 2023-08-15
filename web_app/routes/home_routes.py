@@ -1,8 +1,12 @@
 # this is the "web_app/routes/home_routes.py" file...
 
+#Import Flask Functions
+
 from flask import Blueprint, request, render_template
 
 home_routes = Blueprint("home_routes", __name__)
+
+#Render template for the "Home" Page
 
 @home_routes.route("/")
 @home_routes.route("/home")
@@ -11,11 +15,15 @@ def index():
     #return "Welcome Home"
     return render_template("home.html")
 
+#Render template for the Golf Stats Page
+
 @home_routes.route("/golfstats")
 def golfstats():
     print("golfstats...")
 
     return render_template("golfstats.html")
+
+#Render Template for the Stats Entry Page
 
 @home_routes.route("/hello")
 def hello_world():

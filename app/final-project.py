@@ -1,13 +1,20 @@
+#This is the core app functionality code
+
+
+#Import CSV and Import Flask Functions
 import csv
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
+
+#Write the entered statsitics into the stats.csv file
 
 def write_to_csv(data):
     with open('stats.csv', 'a', newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(data)
 
+#Get and post the entered stats from the "hello" page
 @app.route("/", methods=["GET", "POST"])
 def index():
     message = None  # Initialize a message variable
@@ -31,6 +38,9 @@ def index():
 if __name__ == '__main__':
     app.run(debug=True)
 
+
+#Read from the stats.csv file 
+
 @app.route("/golfstats")
 def summary():
     round_data = {}  # Dictionary to store aggregate statistics for each round
@@ -50,8 +60,8 @@ def summary():
             round_data[round_id]['strokes'].append(strokes)
             round_data[round_id]['putts'].append(putts)
             round_data[round_id]['fairway'].append(fairway)
-    
-    # Calculate aggregate statistics for each round
+ 
+ # Calculate aggregate statistics for each round
     aggregated_stats = []
     for round_id, stats in round_data.items():
         avg_strokes = sum(stats['strokes']) / len(stats['strokes'])
